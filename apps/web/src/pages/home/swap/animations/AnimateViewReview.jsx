@@ -2,21 +2,27 @@ import React, { useMemo, useState } from 'react';
 import { domMax, LazyMotion } from 'framer-motion';
 import { useKeys } from 'core/hooks/useKeys';
 import { useBubble } from 'core/hooks/remix/useBubble';
-import { REVIEW_ACTIVE, SWAP_BASKET_ACTIVE } from 'core/remix/state/bubbles';
+import {
+  VIEW_BASKET_LEFT,
+  VIEW_BASKET_RIGHT,
+  VIEW_POSITION,
+  VIEW_REVIEW,
+} from 'core/remix/state/bubbles';
 import { useSharedRef } from 'core/hooks/remix/useSharedRef';
 import { SWAP_LAYERS_REF } from 'core/remix/state/refs';
 import { withTheme } from 'styled-components';
 
-export const AnimateViewReview = withTheme(({ children, ...props }) => {
-  const [active] = useBubble(SWAP_BASKET_ACTIVE);
-  const [reviewActive] = useBubble(REVIEW_ACTIVE);
+export const AnimateViewReview = withTheme(({ theme, children, ...props }) => {
+  const key = useKeys(2);
+  const [view] = useBubble(VIEW_POSITION);
+  const review_active = view === VIEW_REVIEW;
+  const basket_left = view === VIEW_BASKET_LEFT;
+  const basket_right = view === VIEW_BASKET_RIGHT;
   const info = useSharedRef(SWAP_LAYERS_REF);
   const net_height = info?.height || 0;
 
-  const key = useKeys();
-
-  const top = !reviewActive ? `${net_height - 80}px` : '124px';
-  const review_height = !reviewActive ? `80px` : `${net_height - 124}px`;
+  const top = !review_active ? `${net_height - 80}px` : '124px';
+  const review_height = !review_active ? `80px` : `${net_height - 124}px`;
   const style = {
     top,
     height: review_height,
@@ -76,12 +82,22 @@ export const AnimateViewReview = withTheme(({ children, ...props }) => {
     },
   };
 
+  const watch = [
+    theme,
+    children,
+    basket_left,
+    basket_right,
+    review_active,
+    top,
+    net_height,
+    review_height,
+    transition,
+  ];
   const childrenWithProps = useMemo(
     () =>
       children &&
       React.Children.map(children, (child) =>
         React.cloneElement(child, {
-          key: key[0],
           initial: 'initial',
           transformTemplate,
           onAnimationComplete: () => {
@@ -93,14 +109,23 @@ export const AnimateViewReview = withTheme(({ children, ...props }) => {
               bounce: 0.25,
             });
           },
-          animate: active || 'animate',
+          animate:
+            (basket_left && 'left') || (basket_right && 'right') || 'animate',
           style,
           variants,
           props,
+          ...key[0],
         }),
       ),
-    [children, active, top, net_height],
+    watch,
   );
 
-  return <LazyMotion features={domMax}>{childrenWithProps}</LazyMotion>;
+  return useMemo(
+    () => (
+      <LazyMotion {...key[1]} features={domMax}>
+        {childrenWithProps}
+      </LazyMotion>
+    ),
+    [childrenWithProps],
+  );
 });

@@ -1,48 +1,53 @@
-import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { BehaviorSubject } from 'rxjs';
 
 const configureRemix = () => {
   const refs = new BehaviorSubject(new Map());
   const bubbles = new BehaviorSubject(new Map());
-  const observers = new BehaviorSubject(new Map());
 
   return {
     addRef(key, info) {
-      refs.next(new Map(refs.getValue().set(key, info)));
+      const current_list = refs.getValue();
+      const current_item = current_list.get(key);
+
+      if (!current_item) {
+        const next_item = new BehaviorSubject(info);
+        refs.next(current_list.set(key, next_item));
+      } else {
+        current_item.next(info);
+      }
     },
-    addBubble(key, initial) {
-      bubbles.next(new Map(bubbles.getValue().set(key, initial)));
-    },
-    addObserver({ key, get }) {
-      const id = nanoid();
-      observers.next(
-        new Map(
-          observers
-            .getValue()
-            .set(key, new Map(observers.getValue().set(id, get))),
-        ),
-      );
-      return { id };
+    addBubble(key, state) {
+      console.log(key, state);
+      const current_list = bubbles.getValue();
+      const current_item = current_list.get(key);
+
+      if (!current_item) {
+        const next_item = new BehaviorSubject(state);
+        bubbles.next(current_list.set(key, next_item));
+        return bubbles;
+      } else {
+        current_item.next(state);
+      }
     },
     removeRef({ key }) {
-      refs.next(new Map(refs.getValue().set(key, undefined)));
+      const current_list = refs.getValue();
+      const current_item = current_list.get(key);
+
+      if (current_item) {
+        current_item.next(undefined);
+      }
     },
     removeBubble({ key }) {
-      bubbles.next(new Map(bubbles.getValue().set(key, undefined)));
-    },
-    removeObserver({ key, id }) {
-      observers.next(
-        new Map(
-          observers
-            .getValue()
-            .set(key, new Map(observers.getValue().set(id, undefined))),
-        ),
-      );
+      const current_list = bubbles.getValue();
+      const current_item = current_list.get(key);
+
+      if (current_item) {
+        current_item.next(undefined);
+      }
     },
     refs,
     bubbles,
-    observers,
   };
 };
 

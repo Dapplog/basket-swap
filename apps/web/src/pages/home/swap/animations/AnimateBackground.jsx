@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { withTheme } from 'styled-components';
 import { domMax, LazyMotion } from 'framer-motion';
 import { useKeys } from 'core/hooks/useKeys';
 
-const AnimateBackground = ({ children, theme }) => {
-  const key = useKeys();
+export const AnimateBackground = withTheme(({ children, theme }) => {
+  const key = useKeys(2);
   const variants = {
     initial: {
       background: 'rgba(0,0,0,0)',
@@ -15,18 +15,27 @@ const AnimateBackground = ({ children, theme }) => {
     },
   };
 
-  const childrenWithProps =
-    children &&
-    React.Children.map(children, (child) =>
-      React.cloneElement(child, {
-        key: key[0],
-        initial: 'initial',
-        animate: 'animate',
-        variants,
-      }),
-    );
+  const watch = [theme, children, variants];
+  const childrenWithProps = useMemo(
+    () =>
+      children &&
+      React.Children.map(children, (child) =>
+        React.cloneElement(child, {
+          initial: 'initial',
+          animate: 'animate',
+          variants,
+          ...key[0],
+        }),
+      ),
+    watch,
+  );
 
-  return <LazyMotion features={domMax}>{childrenWithProps}</LazyMotion>;
-};
-
-export default withTheme(AnimateBackground);
+  return useMemo(
+    () => (
+      <LazyMotion {...key[1]} features={domMax}>
+        {childrenWithProps}
+      </LazyMotion>
+    ),
+    [childrenWithProps],
+  );
+});

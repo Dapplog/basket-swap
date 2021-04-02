@@ -4,11 +4,16 @@ import { useKeys } from 'core/hooks/useKeys';
 import { withTheme } from 'styled-components';
 import chroma from 'chroma-js';
 import { useBubble } from 'core/hooks/remix/useBubble';
-import { WALLET_ACTIVE } from 'core/remix/state/bubbles';
+import {
+  VIEW_POSITION,
+  VIEW_WALLET,
+  WALLET_ACTIVE,
+} from 'core/remix/state/bubbles';
 
-export const AnimateViewWallet = withTheme(({ children, theme }) => {
-  const key = useKeys();
-  const [walletActive] = useBubble(WALLET_ACTIVE);
+export const AnimateViewWallet = withTheme(({ children, ...props }) => {
+  const key = useKeys(2);
+  const [view] = useBubble(VIEW_POSITION);
+  const wallet_active = view === VIEW_WALLET;
 
   const [transition, setTransition] = useState({
     delay: 1.25,
@@ -102,26 +107,34 @@ export const AnimateViewWallet = withTheme(({ children, theme }) => {
     },
   };
 
-  const watch = [children, transition];
+  const watch = [children, transition, variants, props];
   const childrenWithProps = useMemo(
     () =>
       children &&
       React.Children.map(children, (child) =>
         React.cloneElement(child, {
-          key: key[0],
           initial: 'initial',
-          animate: walletActive ? 'hidden' : 'animate',
-          whileHover: walletActive ? 'hidden' : 'hover',
+          animate: wallet_active ? 'hidden' : 'animate',
+          whileHover: wallet_active ? 'hidden' : 'hover',
           whileTap: 'tap',
           transformTemplate,
           onAnimationComplete: () => {
             setTransition({ ...transition, delay: 0, duration: 0.4, times });
           },
           variants,
+          ...key[0],
+          props,
         }),
       ),
     watch,
   );
 
-  return <LazyMotion features={domMax}>{childrenWithProps}</LazyMotion>;
+  return useMemo(
+    () => (
+      <LazyMotion {...key[1]} features={domMax}>
+        {childrenWithProps}
+      </LazyMotion>
+    ),
+    [childrenWithProps],
+  );
 });

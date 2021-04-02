@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { domMax, LazyMotion } from 'framer-motion';
 import { useKeys } from 'core/hooks/useKeys';
 
 export const AnimateViewCard = ({ children }) => {
-  const key = useKeys();
+  const key = useKeys(2);
   const transformTemplate = (transform_props, transform_string) =>
     `perspective(${1000}px) ${transform_string}`;
 
@@ -19,17 +19,28 @@ export const AnimateViewCard = ({ children }) => {
     },
   };
 
-  const childrenWithProps =
-    children &&
-    React.Children.map(children, (child) =>
-      React.cloneElement(child, {
-        key: key[0],
-        initial: 'initial',
-        transformTemplate,
-        animate: 'animate',
-        variants,
-      }),
-    );
+  const watch = [children];
+  const childrenWithProps = useMemo(
+    () =>
+      children &&
+      React.Children.map(children, (child) =>
+        React.cloneElement(child, {
+          initial: 'initial',
+          transformTemplate,
+          animate: 'animate',
+          variants,
+          ...key[0],
+        }),
+      ),
+    watch,
+  );
 
-  return <LazyMotion features={domMax}>{childrenWithProps}</LazyMotion>;
+  return useMemo(
+    () => (
+      <LazyMotion {...key[1]} features={domMax}>
+        {childrenWithProps}
+      </LazyMotion>
+    ),
+    [childrenWithProps],
+  );
 };

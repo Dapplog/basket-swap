@@ -26,7 +26,8 @@ const theme = {
     secondary: {
       background: '#cdbeef',
       text: '#967adc',
-      border: '#cbbee4',
+      border: '#967adc',
+      solid: '#8167d0',
     },
     bamboo: {
       higher: '#ffe2ae',
@@ -35,6 +36,8 @@ const theme = {
       low: '#c1a685',
       lower: '#c1a381',
       gradient: 'rgba(166, 142, 119, 1)',
+      shadow: 'rgba(121, 95, 78, 0.32)',
+      shadow_reverse: 'rgba(244, 224, 189, 0.48)',
     },
     ribbon: {
       triangle: {
@@ -60,7 +63,7 @@ const theme = {
     border: {
       higher: '#ffe2ae',
       high: '#d5bd8a',
-      base: '#bfa176',
+      base: '#c4a982',
       low: '#c1a685',
       lower: '#c1a381',
     },
@@ -73,6 +76,7 @@ const theme = {
       roundest_inside: '34px',
       roundest: '36px',
       circle: '50px',
+      angle: '64px',
     },
     text: {
       faded: '#a47c46',
@@ -81,6 +85,7 @@ const theme = {
       input: '#f7efdf',
       placeholder: '#7e5c3e',
       solid: '#fff',
+      logo: '#2d2d2d',
       burn: '#604734',
     },
   },

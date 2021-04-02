@@ -1,6 +1,7 @@
 import remix from 'core/remix';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { less } from '../../utils/helpers';
+import usePrevious from '../usePrevious';
 
 export const useBubble = (bubble_id) => {
   const [bubble, setBubble] = useState({
@@ -8,19 +9,37 @@ export const useBubble = (bubble_id) => {
     setValue: undefined,
   });
 
-  remix?.bubbles?.subscribe((next_state) => {
-    const next_bubble = next_state?.get(bubble_id);
-    if (
-      JSON.stringify(less(bubble, 'setValue')) !==
-      JSON.stringify(less(next_bubble, 'setValue'))
-    ) {
-      setBubble({
-        ...next_bubble,
-        value: next_bubble.value,
-        setValue: next_bubble.setValue,
-      });
-    }
-  });
+  const updateBubble = (next_value) => {
+    if (bubble?.setValue) bubble.setValue(next_value);
+  };
 
-  return [bubble.value, bubble.setValue];
+  const [subject, setSubject] = useState();
+  const prev_subject = usePrevious(subject);
+
+  // Listen for subject mounting/unmounting
+  useEffect(() => {
+    remix.bubbles.subscribe((next_bubbles) => {
+      const next_subject = next_bubbles?.get(bubble_id);
+      if (!subject && next_subject) {
+        setSubject(next_subject);
+      }
+    });
+    return remix.bubbles.unsubscribe;
+  }, []);
+
+  // subscribe to ref
+  useEffect(() => {
+    if (!prev_subject && subject) {
+      subject.subscribe((next_state) => {
+        setBubble({
+          ...next_state,
+          value: next_state.value,
+          setValue: next_state.setValue,
+        });
+      });
+      return subject.unsubscribe;
+    }
+  }, [subject]);
+
+  return [bubble.value, updateBubble];
 };

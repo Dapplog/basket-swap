@@ -1,20 +1,19 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { domMax, LazyMotion } from 'framer-motion';
 import { useKeys } from 'core/hooks/useKeys';
 import { useBubble } from 'core/hooks/remix/useBubble';
 import {
-  REVIEW_ACTIVE,
-  SWAP_BASKET_ACTIVE,
-  WALLET_ACTIVE,
+  VIEW_POSITION,
+  VIEW_REVIEW,
+  VIEW_WALLET,
 } from 'core/remix/state/bubbles';
 import { withTheme } from 'styled-components';
 
 export const AnimateRibbons = withTheme(
   ({ theme, left, right, children, ...props }) => {
-    const key = useKeys();
-    const [active] = useBubble(SWAP_BASKET_ACTIVE);
-    const [walletActive] = useBubble(WALLET_ACTIVE);
-    const [reviewActive] = useBubble(REVIEW_ACTIVE);
+    const key = useKeys(2);
+    const [view] = useBubble(VIEW_POSITION);
+    const active = view === VIEW_WALLET || view === VIEW_REVIEW;
 
     const transition = {
       duration: 0.3,
@@ -59,26 +58,29 @@ export const AnimateRibbons = withTheme(
       },
     };
 
-    const watch = [children, active, walletActive];
+    const watch = [theme, children, active, variants];
     const childrenWithProps = useMemo(
       () =>
         children &&
         React.Children.map(children, (child) =>
           React.cloneElement(child, {
-            key: key[0],
             initial: 'initial',
-            animate: walletActive || reviewActive ? 'bottom' : 'animate',
+            animate: active ? 'bottom' : 'animate',
             variants,
             props,
+            ...key[0],
           }),
         ),
       watch,
     );
 
-    return (
-      <LazyMotion key={`lazy-${key}`} features={domMax}>
-        {childrenWithProps}
-      </LazyMotion>
+    return useMemo(
+      () => (
+        <LazyMotion {...key[1]} features={domMax}>
+          {childrenWithProps}
+        </LazyMotion>
+      ),
+      [childrenWithProps],
     );
   },
 );

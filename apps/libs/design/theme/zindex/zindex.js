@@ -1,4 +1,6 @@
 const Zindex = {
+  app: 10,
+  popover: 500,
   swap: {
     choose_wallet: 45,
     button_connect: 46,

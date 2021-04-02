@@ -1,34 +1,17 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
-import {
-  _swap,
-  _card,
-  _container,
-  _center,
-  _top,
-  _bottom,
-  _view,
-  _layers,
-  _layer,
-  _wrapper,
-  _form,
-  _basket,
-  _coin,
-  _chevron,
-  _float,
-  _actions,
-  _icon,
-} from './Swap.styled';
-import Ribbon from '../../../shared/ribbon/Ribbon';
-import Form from './form/Form';
-import Review from './review/Review';
-import Wallet from './wallet/Wallet';
-import BasketMaker from './basket_maker/BasketMaker';
+import React from 'react';
+import { _swap, _card, _view, _layers, _layer } from './Swap.styled';
+import Review from './views/review/Review';
+import Wallet from './views/wallet/Wallet';
+import BasketMaker from './views/basket/BasketMaker';
 import { AnimateBackground, AnimateViewCard } from './animations';
 import { SWAP_LAYERS_REF } from 'core/remix/state/refs';
 import { useRemixRef } from 'core/hooks/remix/useRemixRef';
-import Trade from './trade/Trade';
+import Trade from './views/trade/Trade';
+import { useRemix } from 'core/hooks/remix/useRemix';
+import { VIEW_POSITION, VIEW_SWAP } from 'core/remix/state/bubbles';
 
 const Swap = () => {
+  const [view] = useRemix(VIEW_POSITION, VIEW_SWAP);
   const [layers_ref] = useRemixRef(SWAP_LAYERS_REF);
 
   return (

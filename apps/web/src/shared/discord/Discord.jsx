@@ -36,8 +36,8 @@ const Discord = () => {
               <_chat {...key[4]}>
                 <WidgetBot
                   {...key[5]}
-                  server="822916187519713290"
-                  channel="822928740371267594"
+                  server="715225479652704295"
+                  channel="828686282330341427"
                   width={'320px'}
                   height={'480px'}
                 />

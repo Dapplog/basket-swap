@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 import Breakpoints from './theme/breakpoints/breakpoints';
-import Styles from './styles/styles';
+import Styles from './styles';
 import Theme from './theme/theme';
 import Zindex from './theme/zindex/zindex';
 import Colors from './colors/colors';

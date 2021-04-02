@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.13.10",
+    "@babel/preset-env": "7.13.10",
     "@parcel/config-default": "2.0.0-nightly.631",
     "@parcel/transformer-babel": "2.0.0-nightly.631",
     "@parcel/transformer-js": "2.0.0-nightly.631",

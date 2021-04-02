@@ -119,6 +119,8 @@ export const GlobalStyles = createGlobalStyle`
 `;
 
 export const _app = styled.div`
+  position: relative;
+  z-index: ${({ theme }) => theme.zindex.app};
   width: 100%;
   height: 100%;
   display: flex;
