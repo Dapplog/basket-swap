@@ -1,0 +1,19 @@
+{
+  "translations": {
+    "language": "English",
+    "wallet.connect": "Connect Wallet",
+    "review.title": "Review",
+    "trade.title": "Swap",
+    "wallet.choose": "Choose Wallet",
+    "wallet.math": "Math Wallet",
+    "wallet.ledger": "Ledger",
+    "wallet.phantom": "Phantom",
+    "wallet.wallet.connect": "WalletConnect",
+    "basket.from": "From Basket",
+    "basket.to": "To Basket",
+    "wallet.coming.soon": "Coming Soon",
+    "basket.token.lists": "Token Lists",
+    "basket.add.coin": "Add",
+    "basket.search": "Search..."
+  }
+}

@@ -1,0 +1,14 @@
+export const SWAP_LAYERS_REF = 'SWAP_LAYERS_REF';
+export const QR_LAYERS_REF = 'QR_LAYERS_REF';
+export const BASKET_ADD_COIN = 'BASKET_ADD_COIN';
+
+export const BUTTON_CONNECT_WALLET = 'BUTTON_CONNECT_WALLET';
+
+const refs = {
+  SWAP_LAYERS_REF,
+  QR_LAYERS_REF,
+  BASKET_ADD_COIN,
+  BUTTON_CONNECT_WALLET,
+};
+
+export default refs;
