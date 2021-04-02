@@ -1,0 +1,13 @@
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.{js,jsx,ts,tsx}": [
+      "@parcel/transformer-babel",
+      "@parcel/transformer-js"
+    ],
+    "*.yml": [
+      "@parcel/transformer-yaml"
+    ],
+    "*.{jpg,png,svg}": ["@parcel/transformer-raw"]
+  }
+}

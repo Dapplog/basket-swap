@@ -1,0 +1,13 @@
+{
+  "translations": {
+    "language": "English",
+    "wallet.connect": "Connect Wallet",
+    "review.title": "Review",
+    "trade.title": "Swap",
+    "wallet.choose": "Choose Wallet",
+    "wallet.math": "Math Wallet",
+    "wallet.ledger": "Ledger",
+    "wallet.phantom": "Phantom",
+    "wallet.wallet.connect": "WalletConnect"
+  }
+}
