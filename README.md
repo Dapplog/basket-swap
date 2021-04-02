@@ -1,6 +1,5 @@
-# basket-swap
+# Basket Swap
 Build a Basket of coins, nfts, synths, and other defi products with ease.
-
 
 # Disclaimer
 All claims, content, designs, algorithms, estimates, roadmaps, specifications, and performance measurements described in this project are done with best efforts. It is up to the reader to check and validate their accuracy and truthfulness. Furthermore nothing in this project constitutes a solicitation for investment.
