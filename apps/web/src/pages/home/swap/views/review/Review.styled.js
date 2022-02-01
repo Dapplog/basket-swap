@@ -69,12 +69,41 @@ export const _container = styled.div`
   align-items: center;
 `;
 
-export const _button = styled.button`
-  min-width: 120px;
-  width: 120px;
-  min-height: 54px;
-  height: 54px;
+// export const _button = styled.button`
+//   min-width: 120px;
+//   width: 120px;
+//   min-height: 54px;
+//   height: 54px;
+//   border-radius: ${({ theme }) => theme.border_radius['button']};
+//   background: black;
+//   cursor: pointer;
+// `;
+export const _button = styled(m.div)`
   border-radius: ${({ theme }) => theme.border_radius['button']};
-  background: black;
+  box-shadow: inset 1px 1px 16px 0 ${({ theme }) => theme.primary['light']},
+    2px 2px 4px -2px rgba(0, 0, 0, 0.16);
+  border: 2px solid ${({ theme }) => theme.primary['shadow']};
+  background: ${({ theme }) => theme.primary['background']};
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  > span {
+    margin-left: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: ${({ theme }) => theme.primary['text']};
+    text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.32),
+      1px 1px 24px ${({ theme }) => theme.primary['text']};
+    line-height: 1;
+  }
+  > svg {
+    min-width: 16px;
+    width: 16px;
+    min-height: 16px;
+    height: 16px;
+    fill: ${({ theme }) => theme.primary['text']};
+  }
 `;

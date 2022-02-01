@@ -38,10 +38,14 @@ export const Review = () => {
           <_title {...key[2]}>
             <_content {...key[3]}>
               <h3 {...key[5]}>{t('review.title')}</h3>
+              <_button {...key[3]} onClick={() => console.log("Swap!")}>
+                <span {...key[5]}>{t('Swap!')}</span>
+              </_button>
             </_content>
           </_title>
           <_container {...key[7]}></_container>
         </_review>
+        
       </AnimateView>
     ),
     watch,

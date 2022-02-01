@@ -60,21 +60,35 @@ export const List = () => {
   }, []);
 
   const Swap = async () => {
-    const tmpAddress = "BgHvegZqBSh5XPik7RNRaWudFRU7x14CuFGAtQFWxFrK"
     log("trying to serum swap")
-    let connection = new Connection('https://testnet.solana.com');
-    let marketAddress = new PublicKey(tmpAddress);
+    let localhostPhantomWalletAddress = "9oTpBeexxPmLGwjQFHeQhmFrYg3ouvxQ7ryyHGXwHATn";
+    let wallet4PhantomWalletAddress = "HdyGV8mN3tqGwxiH4bvSW62uBpRGPyodaZTY3gfuG69U";
+    let solusdcMarket = "9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT";
+    let solEth = "HkLEttvwk2b4QDAHzNcVtxsvBG35L1gmYY4pecF9LrFe"
+    let testMarket = "CRW23rK5LksqowrfpQTEUVEFUDNDLF34STyW7gXV18Xt"
+    // let connection = new Connection('https://devnet.solana.com');
+    let connection = new Connection('https://localhost');
+
+    let marketAddress = new PublicKey(testMarket);
+    // try {
+    //   let market = await Market.load(connection, marketAddress);
+    // } catch {
+    //   log("getting market info didnt work")
+    // }
     let market = await Market.load(connection, marketAddress);
+
 
     // Fetching orderbooks
     let bids = await market.loadBids(connection);
     let asks = await market.loadAsks(connection);
     // L2 orderbook data
     for (let [price, size] of bids.getL2(20)) {
+    log("orderbook price and size")
     console.log(price, size);
     }
     // Full orderbook data
     for (let order of asks) {
+    log("full orderbook data")
     console.log(
         order.orderId,
         order.price,
@@ -84,14 +98,14 @@ export const List = () => {
     }
 
     // Placing orders
-    let owner = new Account(tmpAddress);
-    let payer = new PublicKey(tmpAddress); // spl-token account
+    let owner = new Account(localhostPhantomWalletAddress);
+    let payer = new PublicKey(localhostPhantomWalletAddress); // spl-token account
     await market.placeOrder(connection, {
     owner,
     payer,
     side: 'buy', // 'buy' or 'sell'
     price: 123.45,
-    size: 17.0,
+    size: 0.1,
     orderType: 'limit', // 'limit', 'ioc', 'postOnly'
     });
 
@@ -99,14 +113,15 @@ export const List = () => {
     // Retrieving open orders by owner
     let myOrders = await market.loadOrdersForOwner(connection, owner.publicKey);
 
-    // Cancelling orders
-    for (let order of myOrders) {
-    await market.cancelOrder(connection, owner, order);
-    }
+    // // Cancelling orders
+    // for (let order of myOrders) {
+    // await market.cancelOrder(connection, owner, order);
+    // }
 
     // Retrieving fills
     for (let fill of await market.loadFills(connection)) {
-    console.log(
+      log("retrieving fills")
+      console.log(
         fill.orderId,
         fill.price,
         fill.size,
@@ -122,8 +137,8 @@ export const List = () => {
     if (openOrders.baseTokenFree > 0 || openOrders.quoteTokenFree > 0) {
         // spl-token accounts to which to send the proceeds from trades
         log("Wallet Address in swap: ", walletAddress)
-        let baseTokenAccount = new PublicKey(tmpAddress);
-        let quoteTokenAccount = new PublicKey(tmpAddress);
+        let baseTokenAccount = new PublicKey(wallet4PhantomWalletAddress);
+        let quoteTokenAccount = new PublicKey(wallet4PhantomWalletAddress);
 
         await market.settleFunds(
         connection,
@@ -139,28 +154,26 @@ export const List = () => {
   return (
     <_list>
       <_item>
-        <_bubble $logo={COLOR_MATH}>
+        <_bubble $logo={COLOR_MATH} >
           <_icon $logo={COLOR_MATH}>{MathWallet()}</_icon>
         </_bubble>
         <_name>{t('wallet.coming.soon')}</_name>
       </_item>
-      <button onClick={() => connectWallet()}>
       <_item >
-        <_bubble $logo={COLOR_PHANTOM} >
+        <_bubble $logo={COLOR_PHANTOM} onClick={() => connectWallet()} >
           <_icon $logo={COLOR_PHANTOM} >{Phantom()}</_icon>
         </_bubble>
         <_name>{!walletAddress && "Connect to Phantom"}{walletAddress && "Connected"}</_name> 
       </_item>
-    </button>
       <_item>
         <_bubble $logo={COLOR_LEDGER}>
           <_icon $logo={COLOR_LEDGER}>{Ledger()}</_icon>
         </_bubble>
         <_name>{t('wallet.coming.soon')}</_name>
       </_item>
-      <button onClick={() => console.log(solanaWeb3)}>
+      {/* <button onClick={() => Swap()}>
         Swap!
-      </button>
+      </button> */}
     </_list>
   );
 };
