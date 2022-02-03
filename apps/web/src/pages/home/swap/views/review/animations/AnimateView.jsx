@@ -21,12 +21,12 @@ export const AnimateView = withTheme(({ theme, children, ...props }) => {
   const info = useSharedRef(SWAP_LAYERS_REF);
   const net_height = info?.height || 0;
 
-  console.log('VIEW', view);
-  console.log('INFO', info);
+  // console.log('VIEW', view);
+  // console.log('INFO', info);
   const top = !review_active ? `${net_height - 80}px` : '124px';
   const review_height = !review_active ? `80px` : `${net_height - 124}px`;
-  console.log('TOP', top);
-  console.log('REVIEW HEIGHT', review_height);
+  // console.log('TOP', top);
+  // console.log('REVIEW HEIGHT', review_height);
 
   const style = {
     top,

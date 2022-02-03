@@ -1,0 +1,35 @@
+[33mcommit b1f87345d4f685cfe3c59e85d480086066e0a9f0[m[33m ([m[1;36mHEAD -> [m[1;32mdaniel/phantom-wallet[m[33m)[m
+Author: Daniel Visca <danielvisca96@gmail.com>
+Date:   Wed Jan 12 22:17:41 2022 -0800
+
+    wallet asks to connect or if previously connected, autoconnects
+
+[33mcommit 083dee94a6d6538fe58a661a802802730691d81f[m
+Author: Daniel Visca <danielvisca96@gmail.com>
+Date:   Wed Jan 12 21:36:31 2022 -0800
+
+    A very hacky ugly but functional check for a phantom wallet on click
+
+[33mcommit ad9413115f0567abf190241b32cdcece8668f4ab[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/development[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mdaniel/experimental[m[33m)[m
+Author: Calvin Maighan <calvinmaighan@gmail.com>
+Date:   Thu Apr 1 22:40:25 2021 -0400
+
+    Initial Setup
+
+[33mcommit 0180c4e6de7f89d1d70882af7423677f34f96553[m
+Author: Dapplog <80984992+Dapplog@users.noreply.github.com>
+Date:   Thu Apr 1 21:27:00 2021 -0400
+
+    Update README.md
+
+[33mcommit 78bb8805a08e61acf1bc84342c20951db6a10952[m
+Author: Dapplog <80984992+Dapplog@users.noreply.github.com>
+Date:   Thu Apr 1 21:26:36 2021 -0400
+
+    Updated Disclaimer
+
+[33mcommit 49732b2c394e09967fff5d21f6b1d2dcdb5195aa[m
+Author: Dapplog <80984992+Dapplog@users.noreply.github.com>
+Date:   Thu Apr 1 21:22:55 2021 -0400
+
+    Initial commit
